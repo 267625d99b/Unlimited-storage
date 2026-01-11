@@ -1,0 +1,208 @@
+{
+  "notifications": [
+    {
+      "id": "ab136262-f041-4b12-a22e-2a730976d40e",
+      "userId": "notif-user-1",
+      "type": "file_shared",
+      "title": "Test Notification",
+      "message": "This is a test",
+      "data": {
+        "fileId": "test-file"
+      },
+      "priority": "normal",
+      "read": true,
+      "createdAt": "2025-12-03T10:20:44.897Z",
+      "readAt": "2025-12-03T10:20:44.899Z"
+    },
+    {
+      "id": "d2f4d454-7128-457b-b28c-55ca3a948b6c",
+      "userId": "notif-user-1",
+      "type": "file_shared",
+      "title": "Test Notification",
+      "message": "This is a test",
+      "data": {
+        "fileId": "test-file"
+      },
+      "priority": "normal",
+      "read": true,
+      "createdAt": "2025-12-03T10:21:03.984Z",
+      "readAt": "2025-12-03T10:21:03.996Z"
+    },
+    {
+      "id": "7437ba89-4763-4e41-bd76-d0eb01f68d9e",
+      "userId": "notif-user-mipv75dr",
+      "type": "file_shared",
+      "title": "Test Notification",
+      "message": "This is a test",
+      "data": {
+        "fileId": "test-file"
+      },
+      "priority": "normal",
+      "read": true,
+      "createdAt": "2025-12-03T10:29:08.223Z",
+      "readAt": "2025-12-03T10:29:08.227Z"
+    },
+    {
+      "id": "4de5e4b4-6c5f-407c-986a-baf6611440b5",
+      "userId": "notif-user-mipv7vbo",
+      "type": "file_shared",
+      "title": "Test Notification",
+      "message": "This is a test",
+      "data": {
+        "fileId": "test-file"
+      },
+      "priority": "normal",
+      "read": true,
+      "createdAt": "2025-12-03T10:29:41.884Z",
+      "readAt": "2025-12-03T10:29:41.951Z"
+    },
+    {
+      "id": "b13078ae-c719-482c-bfd4-f6ea40d7aca5",
+      "userId": "notif-user-mipvu4ym",
+      "type": "file_shared",
+      "title": "Test Notification",
+      "message": "This is a test",
+      "data": {
+        "fileId": "test-file"
+      },
+      "priority": "normal",
+      "read": true,
+      "createdAt": "2025-12-03T10:47:00.769Z",
+      "readAt": "2025-12-03T10:47:00.774Z"
+    },
+    {
+      "id": "9fa15763-24b2-4deb-8aaa-d5ea03d80e8e",
+      "userId": "notif-user-mipyfqbj",
+      "type": "file_shared",
+      "title": "Test Notification",
+      "message": "This is a test",
+      "data": {
+        "fileId": "test-file"
+      },
+      "priority": "normal",
+      "read": true,
+      "createdAt": "2025-12-03T11:59:47.463Z",
+      "readAt": "2025-12-03T11:59:47.490Z"
+    },
+    {
+      "id": "c557d483-36fa-4f01-8b80-4ed2f775b098",
+      "userId": "notif-user-mipyp2ra",
+      "type": "file_shared",
+      "title": "Test Notification",
+      "message": "This is a test",
+      "data": {
+        "fileId": "test-file"
+      },
+      "priority": "normal",
+      "read": true,
+      "createdAt": "2025-12-03T12:07:03.483Z",
+      "readAt": "2025-12-03T12:07:03.487Z"
+    },
+    {
+      "id": "74ec461c-ecd2-4ea3-9792-8eb80229c8b3",
+      "userId": "notif-user-mivc68vj",
+      "type": "file_shared",
+      "title": "Test Notification",
+      "message": "This is a test",
+      "data": {
+        "fileId": "test-file"
+      },
+      "priority": "normal",
+      "read": true,
+      "createdAt": "2025-12-07T06:23:10.448Z",
+      "readAt": "2025-12-07T06:23:10.450Z"
+    },
+    {
+      "id": "df1a58d7-f0d7-485a-a9bf-6c4908b0975d",
+      "userId": "notif-user-mivc8q7q",
+      "type": "file_shared",
+      "title": "Test Notification",
+      "message": "This is a test",
+      "data": {
+        "fileId": "test-file"
+      },
+      "priority": "normal",
+      "read": false,
+      "createdAt": "2025-12-07T06:25:06.281Z"
+    },
+    {
+      "id": "7659469f-b0ee-4268-a738-53bd5d16994d",
+      "userId": "notif-user-mivcb44b",
+      "type": "file_shared",
+      "title": "Test Notification",
+      "message": "This is a test",
+      "data": {
+        "fileId": "test-file"
+      },
+      "priority": "normal",
+      "read": false,
+      "createdAt": "2025-12-07T06:26:57.615Z"
+    },
+    {
+      "id": "2f533551-d318-4e83-94a8-fea8820d1645",
+      "userId": "notif-user-mivccaiz",
+      "type": "file_shared",
+      "title": "Test Notification",
+      "message": "This is a test",
+      "data": {
+        "fileId": "test-file"
+      },
+      "priority": "normal",
+      "read": false,
+      "createdAt": "2025-12-07T06:27:52.569Z"
+    },
+    {
+      "id": "3437caf6-0acd-4c9f-859e-bc3994bf1501",
+      "userId": "notif-user-mivcdkax",
+      "type": "file_shared",
+      "title": "Test Notification",
+      "message": "This is a test",
+      "data": {
+        "fileId": "test-file"
+      },
+      "priority": "normal",
+      "read": false,
+      "createdAt": "2025-12-07T06:28:51.893Z"
+    },
+    {
+      "id": "33d56d50-0664-4840-a1d2-60d9b8fe1853",
+      "userId": "notif-user-mivcfmbz",
+      "type": "file_shared",
+      "title": "Test Notification",
+      "message": "This is a test",
+      "data": {
+        "fileId": "test-file"
+      },
+      "priority": "normal",
+      "read": false,
+      "createdAt": "2025-12-07T06:30:27.839Z"
+    },
+    {
+      "id": "2607d4b0-a76e-4f29-ae04-1d011c60011a",
+      "userId": "notif-user-mizp9e3o",
+      "type": "file_shared",
+      "title": "Test Notification",
+      "message": "This is a test",
+      "data": {
+        "fileId": "test-file"
+      },
+      "priority": "normal",
+      "read": false,
+      "createdAt": "2025-12-10T07:40:36.940Z"
+    },
+    {
+      "id": "74a33a1a-2049-429d-9510-4794d2bc8380",
+      "userId": "notif-user-mj5ckj0d",
+      "type": "file_shared",
+      "title": "Test Notification",
+      "message": "This is a test",
+      "data": {
+        "fileId": "test-file"
+      },
+      "priority": "normal",
+      "read": false,
+      "createdAt": "2025-12-14T06:31:58.560Z"
+    }
+  ],
+  "settings": {}
+}

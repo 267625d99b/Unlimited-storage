@@ -1,0 +1,52 @@
+# Dependencies
+node_modules
+client/node_modules
+
+# Build outputs
+client/dist
+
+# Development files
+.git
+.gitignore
+*.md
+.env
+.env.*
+!.env.example
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+
+# Logs
+*.log
+server/logs/*
+!server/logs/.gitkeep
+
+# Database (will be mounted as volume)
+server/storage.db
+server/storage.db-wal
+server/storage.db-shm
+
+# Backups (will be mounted as volume)
+server/backups/*
+!server/backups/.gitkeep
+
+# Cache
+server/cache/*
+!server/cache/.gitkeep
+
+# Uploads (will be mounted as volume)
+uploads/*
+!uploads/.gitkeep
+
+# Test files
+test-*.js
+*.test.js
+*.spec.js
+__tests__
+
+# OS files
+.DS_Store
+Thumbs.db

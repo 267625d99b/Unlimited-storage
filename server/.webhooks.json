@@ -1,0 +1,260 @@
+{
+  "webhooks": [
+    {
+      "id": "5bdb7c4a-8024-42c0-807e-9c2aecc9b9d3",
+      "userId": "webhook-user-1",
+      "name": "Updated Webhook",
+      "url": "https://example.com/webhook",
+      "events": [
+        "file.uploaded",
+        "file.shared"
+      ],
+      "secret": "3a3c8a68071887d66d2a682e78d404f1e5e58c9957918677c6c76742eb7ae12a",
+      "headers": {},
+      "active": false,
+      "failureCount": 0,
+      "lastDelivery": null,
+      "createdAt": "2025-12-03T10:20:44.819Z",
+      "updatedAt": "2025-12-03T10:21:03.963Z"
+    },
+    {
+      "id": "ad776c66-0c17-4ad0-863e-c18515da5371",
+      "userId": "webhook-user-1",
+      "name": "Test Webhook",
+      "url": "https://example.com/webhook",
+      "events": [
+        "file.uploaded",
+        "file.shared"
+      ],
+      "secret": "e6b873b4ba3a13f6b0989253892898db3b275ff453da2a10c48edc524b103a08",
+      "headers": {},
+      "active": true,
+      "failureCount": 0,
+      "lastDelivery": null,
+      "createdAt": "2025-12-03T10:21:03.947Z",
+      "updatedAt": "2025-12-03T10:21:03.947Z"
+    },
+    {
+      "id": "17c5a4e6-d5c3-4663-9fde-2e664c30de14",
+      "userId": "webhook-user-mipv75cx",
+      "name": "Updated Webhook",
+      "url": "https://example.com/webhook-mipv75cx",
+      "events": [
+        "file.uploaded",
+        "file.shared"
+      ],
+      "secret": "075c834edf1a940f2fb9af255991c45ba8700aa4aa07c7986eab2b0a4e4d6e68",
+      "headers": {},
+      "active": false,
+      "failureCount": 0,
+      "lastDelivery": null,
+      "createdAt": "2025-12-03T10:29:08.194Z",
+      "updatedAt": "2025-12-03T10:29:08.202Z"
+    },
+    {
+      "id": "47055804-bd98-4ba0-a37d-a4f97a3f5db2",
+      "userId": "webhook-user-mipv7v75",
+      "name": "Updated Webhook",
+      "url": "https://example.com/webhook-mipv7v75",
+      "events": [
+        "file.uploaded",
+        "file.shared"
+      ],
+      "secret": "b3c90e1790d90a3d380a473c1a62467bd25e0527ca9e1a1264820961f2fc6b41",
+      "headers": {},
+      "active": false,
+      "failureCount": 0,
+      "lastDelivery": null,
+      "createdAt": "2025-12-03T10:29:41.683Z",
+      "updatedAt": "2025-12-03T10:29:41.759Z"
+    },
+    {
+      "id": "e0d16b93-c7ba-42b0-b358-701ca1723e6c",
+      "userId": "webhook-user-mipvu4vo",
+      "name": "Updated Webhook",
+      "url": "https://example.com/webhook-mipvu4vo",
+      "events": [
+        "file.uploaded",
+        "file.shared"
+      ],
+      "secret": "7a57a0a9d1e13abc1fee45aaadd37800fa46d1f87a14be8f5968b206aec9b7b0",
+      "headers": {},
+      "active": false,
+      "failureCount": 0,
+      "lastDelivery": null,
+      "createdAt": "2025-12-03T10:47:00.662Z",
+      "updatedAt": "2025-12-03T10:47:00.702Z"
+    },
+    {
+      "id": "d20bd8e9-dffa-4ca9-af2f-6dc76362a78c",
+      "userId": "webhook-user-mipyfq0i",
+      "name": "Updated Webhook",
+      "url": "https://example.com/webhook-mipyfq0i",
+      "events": [
+        "file.uploaded",
+        "file.shared"
+      ],
+      "secret": "0596d716f36d83bb40b47656413a6c3b3ebf63901c8ef20d08d65db01fb3a5cf",
+      "headers": {},
+      "active": false,
+      "failureCount": 0,
+      "lastDelivery": null,
+      "createdAt": "2025-12-03T11:59:47.107Z",
+      "updatedAt": "2025-12-03T11:59:47.252Z"
+    },
+    {
+      "id": "7d5a9aec-e12c-4104-99cc-5455cc3e0c3a",
+      "userId": "webhook-user-mipyp2oc",
+      "name": "Updated Webhook",
+      "url": "https://example.com/webhook-mipyp2oc",
+      "events": [
+        "file.uploaded",
+        "file.shared"
+      ],
+      "secret": "cc8d611e7a8f77c89e6fd1a3603ba8660714dc68e1c8ee1d4321079108a70109",
+      "headers": {},
+      "active": false,
+      "failureCount": 0,
+      "lastDelivery": null,
+      "createdAt": "2025-12-03T12:07:03.374Z",
+      "updatedAt": "2025-12-03T12:07:03.382Z"
+    },
+    {
+      "id": "5490d1bd-33c5-42e9-9559-a8e11dee1994",
+      "userId": "webhook-user-mivc68t1",
+      "name": "Updated Webhook",
+      "url": "https://example.com/webhook-mivc68t1",
+      "events": [
+        "file.uploaded",
+        "file.shared"
+      ],
+      "secret": "d473bfbdf378415d2c6302b4245b9bce086a84819ecfa6ccf45d325fce9d313d",
+      "headers": {},
+      "active": false,
+      "failureCount": 0,
+      "lastDelivery": null,
+      "createdAt": "2025-12-07T06:23:10.358Z",
+      "updatedAt": "2025-12-07T06:23:10.361Z"
+    },
+    {
+      "id": "f48ea803-e2c7-42a3-8015-b746a0d4ecf6",
+      "userId": "webhook-user-mivc8q7e",
+      "name": "Test Webhook",
+      "url": "https://example.com/webhook-mivc8q7e",
+      "events": [
+        "file.uploaded",
+        "file.shared"
+      ],
+      "secret": "4731e08eb530e0764225049bec04c6afb9a250a4ca26ac5b8f72a0ae659b6584",
+      "headers": {},
+      "active": true,
+      "failureCount": 0,
+      "lastDelivery": null,
+      "createdAt": "2025-12-07T06:25:06.269Z",
+      "updatedAt": "2025-12-07T06:25:06.269Z"
+    },
+    {
+      "id": "5d236aea-2684-41ed-90b2-194e876a00f1",
+      "userId": "webhook-user-mivcb43x",
+      "name": "Test Webhook",
+      "url": "https://example.com/webhook-mivcb43x",
+      "events": [
+        "file.uploaded",
+        "file.shared"
+      ],
+      "secret": "a2ff4fdf12dd224a4c3c298efb39c82a02f762336ba6f743f5d6d61df1fbfe50",
+      "headers": {},
+      "active": true,
+      "failureCount": 0,
+      "lastDelivery": null,
+      "createdAt": "2025-12-07T06:26:57.605Z",
+      "updatedAt": "2025-12-07T06:26:57.605Z"
+    },
+    {
+      "id": "4eed70fd-0b11-425a-b9b2-53048db8b741",
+      "userId": "webhook-user-mivccaio",
+      "name": "Test Webhook",
+      "url": "https://example.com/webhook-mivccaio",
+      "events": [
+        "file.uploaded",
+        "file.shared"
+      ],
+      "secret": "b36bade42d69ed47b8e585d5448efdefa90893ac1d8f44fd0f5b790b9dc6588e",
+      "headers": {},
+      "active": true,
+      "failureCount": 0,
+      "lastDelivery": null,
+      "createdAt": "2025-12-07T06:27:52.561Z",
+      "updatedAt": "2025-12-07T06:27:52.561Z"
+    },
+    {
+      "id": "92dfaf6c-e63a-452d-ab40-f1f86a092c75",
+      "userId": "webhook-user-mivcdkam",
+      "name": "Test Webhook",
+      "url": "https://example.com/webhook-mivcdkam",
+      "events": [
+        "file.uploaded",
+        "file.shared"
+      ],
+      "secret": "98cebbdba6e19944a6e00a43f5b6e393feefe58bb33e30c08732c3b8358e5b5f",
+      "headers": {},
+      "active": true,
+      "failureCount": 0,
+      "lastDelivery": null,
+      "createdAt": "2025-12-07T06:28:51.883Z",
+      "updatedAt": "2025-12-07T06:28:51.883Z"
+    },
+    {
+      "id": "6276588f-024c-4207-a242-ebd3596b8ba3",
+      "userId": "webhook-user-mivcfmbo",
+      "name": "Test Webhook",
+      "url": "https://example.com/webhook-mivcfmbo",
+      "events": [
+        "file.uploaded",
+        "file.shared"
+      ],
+      "secret": "afb0f9b45e58a6a9e1eb510393f5404302cdb7688ba13ebf5b37c0234bf4ddd3",
+      "headers": {},
+      "active": true,
+      "failureCount": 0,
+      "lastDelivery": null,
+      "createdAt": "2025-12-07T06:30:27.829Z",
+      "updatedAt": "2025-12-07T06:30:27.829Z"
+    },
+    {
+      "id": "6da6de02-0253-43bf-b79b-2015d0097063",
+      "userId": "webhook-user-mizp9e34",
+      "name": "Test Webhook",
+      "url": "https://example.com/webhook-mizp9e34",
+      "events": [
+        "file.uploaded",
+        "file.shared"
+      ],
+      "secret": "7e86a7b168b3bf54a7b8b89489df43dd5ffbab7f03255d1758f39c8368af7a63",
+      "headers": {},
+      "active": true,
+      "failureCount": 0,
+      "lastDelivery": null,
+      "createdAt": "2025-12-10T07:40:36.932Z",
+      "updatedAt": "2025-12-10T07:40:36.932Z"
+    },
+    {
+      "id": "5090fb0c-dc40-43b8-9658-ad66b01e32e4",
+      "userId": "webhook-user-mj5ckiyx",
+      "name": "Test Webhook",
+      "url": "https://example.com/webhook-mj5ckiyx",
+      "events": [
+        "file.uploaded",
+        "file.shared"
+      ],
+      "secret": "7242f362346892d4ab4934f0bb4931c6ee82e4500f9427b423e8ec3dd075f561",
+      "headers": {},
+      "active": true,
+      "failureCount": 0,
+      "lastDelivery": null,
+      "createdAt": "2025-12-14T06:31:58.553Z",
+      "updatedAt": "2025-12-14T06:31:58.553Z"
+    }
+  ],
+  "deliveries": []
+}

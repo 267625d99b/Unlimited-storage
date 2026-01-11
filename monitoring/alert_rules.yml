@@ -1,0 +1,75 @@
+# Prometheus Alert Rules
+# قواعد التنبيهات
+
+groups:
+  - name: cloud-storage-alerts
+    rules:
+      # High error rate
+      - alert: HighErrorRate
+        expr: rate(errors_total[5m]) > 0.1
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High error rate detected"
+          description: "Error rate is {{ $value }} errors/sec"
+
+      # High response time
+      - alert: HighResponseTime
+        expr: histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m])) > 2
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High response time"
+          description: "95th percentile response time is {{ $value }}s"
+
+      # Too many failed logins
+      - alert: BruteForceAttempt
+        expr: rate(login_attempts_total{status="failed"}[5m]) > 0.5
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Possible brute force attack"
+          description: "High rate of failed login attempts detected"
+
+      # Service down
+      - alert: ServiceDown
+        expr: up{job="cloud-storage"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Cloud Storage service is down"
+          description: "The application is not responding"
+
+      # High memory usage
+      - alert: HighMemoryUsage
+        expr: process_resident_memory_bytes / 1024 / 1024 > 500
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High memory usage"
+          description: "Memory usage is {{ $value }}MB"
+
+      # Disk space low
+      - alert: LowDiskSpace
+        expr: (node_filesystem_avail_bytes{mountpoint="/"} / node_filesystem_size_bytes{mountpoint="/"}) * 100 < 10
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Low disk space"
+          description: "Only {{ $value }}% disk space remaining"
+
+      # Too many active connections
+      - alert: TooManyConnections
+        expr: active_connections > 1000
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Too many active connections"
+          description: "{{ $value }} active connections"

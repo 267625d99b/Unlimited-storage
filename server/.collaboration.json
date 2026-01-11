@@ -1,0 +1,296 @@
+{
+  "sessions": [
+    {
+      "id": "2031fcac-1fb8-4472-9d3b-e9ab8b293095",
+      "fileId": "session-file-1",
+      "fileName": "document.txt",
+      "ownerId": "session-owner-1",
+      "ownerName": "Session Owner",
+      "participants": [
+        {
+          "userId": "session-owner-1",
+          "username": "Session Owner",
+          "role": "owner",
+          "joinedAt": "2025-12-03T10:20:44.740Z"
+        }
+      ],
+      "operations": [],
+      "version": 0,
+      "status": "active",
+      "createdAt": "2025-12-03T10:20:44.740Z"
+    },
+    {
+      "id": "85ee6d5d-251b-4efd-80bf-01d9e17eee86",
+      "fileId": "session-file-2",
+      "fileName": "doc.txt",
+      "ownerId": "owner-2",
+      "ownerName": "Owner",
+      "participants": [
+        {
+          "userId": "owner-2",
+          "username": "Owner",
+          "role": "owner",
+          "joinedAt": "2025-12-03T10:20:44.743Z"
+        },
+        {
+          "userId": "participant-1",
+          "username": "Participant",
+          "role": "editor",
+          "joinedAt": "2025-12-03T10:20:44.745Z"
+        }
+      ],
+      "operations": [],
+      "version": 0,
+      "status": "active",
+      "createdAt": "2025-12-03T10:20:44.743Z"
+    }
+  ],
+  "presence": {},
+  "cursors": {},
+  "mentions": [
+    {
+      "id": "7442f8bd-90c3-49dc-9813-e863d87c24e1",
+      "fileId": "mention-file-1",
+      "fileName": "file.txt",
+      "mentionedUserId": "mentioned-user-1",
+      "mentionedUsername": "Mentioned User",
+      "mentionedBy": "mentioner-1",
+      "mentionedByName": "Mentioner",
+      "context": "Check this @MentionedUser",
+      "position": {
+        "line": 5
+      },
+      "read": true,
+      "createdAt": "2025-12-03T10:20:44.746Z",
+      "readAt": "2025-12-03T10:20:44.748Z"
+    },
+    {
+      "id": "96df0a7e-8ba3-40e2-aa25-af076b6b7b69",
+      "fileId": "mention-file-1",
+      "fileName": "file.txt",
+      "mentionedUserId": "mentioned-user-1",
+      "mentionedUsername": "Mentioned User",
+      "mentionedBy": "mentioner-1",
+      "mentionedByName": "Mentioner",
+      "context": "Check this @MentionedUser",
+      "position": {
+        "line": 5
+      },
+      "read": true,
+      "createdAt": "2025-12-03T10:21:03.913Z",
+      "readAt": "2025-12-03T10:21:03.918Z"
+    },
+    {
+      "id": "a1fc42fa-f83f-4fca-bb6f-aa474926a7da",
+      "fileId": "mention-file-1",
+      "fileName": "file.txt",
+      "mentionedUserId": "mentioned-user-1",
+      "mentionedUsername": "Mentioned User",
+      "mentionedBy": "mentioner-1",
+      "mentionedByName": "Mentioner",
+      "context": "Check this @MentionedUser",
+      "position": {
+        "line": 5
+      },
+      "read": true,
+      "createdAt": "2025-12-03T10:29:08.155Z",
+      "readAt": "2025-12-03T10:29:08.160Z"
+    },
+    {
+      "id": "aa39482d-5961-46db-8aab-02d9e4f85783",
+      "fileId": "mention-file-1",
+      "fileName": "file.txt",
+      "mentionedUserId": "mentioned-user-1",
+      "mentionedUsername": "Mentioned User",
+      "mentionedBy": "mentioner-1",
+      "mentionedByName": "Mentioner",
+      "context": "Check this @MentionedUser",
+      "position": {
+        "line": 5
+      },
+      "read": true,
+      "createdAt": "2025-12-03T10:29:41.584Z",
+      "readAt": "2025-12-03T10:29:41.612Z"
+    },
+    {
+      "id": "3df7646e-9968-4181-b6a6-7535c6ec548a",
+      "fileId": "mention-file-1",
+      "fileName": "file.txt",
+      "mentionedUserId": "mentioned-user-1",
+      "mentionedUsername": "Mentioned User",
+      "mentionedBy": "mentioner-1",
+      "mentionedByName": "Mentioner",
+      "context": "Check this @MentionedUser",
+      "position": {
+        "line": 5
+      },
+      "read": true,
+      "createdAt": "2025-12-03T10:47:00.604Z",
+      "readAt": "2025-12-03T10:47:00.611Z"
+    },
+    {
+      "id": "30e32466-f9ae-4e7f-ac4a-cc8ef1c3cb54",
+      "fileId": "mention-file-1",
+      "fileName": "file.txt",
+      "mentionedUserId": "mentioned-user-1",
+      "mentionedUsername": "Mentioned User",
+      "mentionedBy": "mentioner-1",
+      "mentionedByName": "Mentioner",
+      "context": "Check this @MentionedUser",
+      "position": {
+        "line": 5
+      },
+      "read": true,
+      "createdAt": "2025-12-03T11:59:46.873Z",
+      "readAt": "2025-12-03T11:59:46.881Z"
+    },
+    {
+      "id": "0026939f-7f00-4936-bc71-2070934d35e8",
+      "fileId": "mention-file-1",
+      "fileName": "file.txt",
+      "mentionedUserId": "mentioned-user-1",
+      "mentionedUsername": "Mentioned User",
+      "mentionedBy": "mentioner-1",
+      "mentionedByName": "Mentioner",
+      "context": "Check this @MentionedUser",
+      "position": {
+        "line": 5
+      },
+      "read": true,
+      "createdAt": "2025-12-03T12:07:03.021Z",
+      "readAt": "2025-12-03T12:07:03.042Z"
+    },
+    {
+      "id": "10a976c7-e1f6-4ab3-94cf-a8e33bcd7c1c",
+      "fileId": "mention-file-1",
+      "fileName": "file.txt",
+      "mentionedUserId": "mentioned-user-1",
+      "mentionedUsername": "Mentioned User",
+      "mentionedBy": "mentioner-1",
+      "mentionedByName": "Mentioner",
+      "context": "Check this @MentionedUser",
+      "position": {
+        "line": 5
+      },
+      "read": true,
+      "createdAt": "2025-12-07T06:23:10.292Z",
+      "readAt": "2025-12-07T06:23:10.294Z"
+    }
+  ],
+  "liveComments": [
+    {
+      "id": "f5c3b516-388b-419e-9c9c-52f700f5ece8",
+      "fileId": "comment-file-1",
+      "userId": "commenter-1",
+      "username": "Commenter",
+      "color": "#1a73e8",
+      "content": "This is a live comment",
+      "position": {
+        "line": 10
+      },
+      "parentId": null,
+      "resolved": true,
+      "createdAt": "2025-12-03T10:20:44.749Z",
+      "resolvedBy": "commenter-1",
+      "resolvedAt": "2025-12-07T06:23:10.297Z"
+    },
+    {
+      "id": "7d41e88a-5323-427f-802a-33a05ad553a4",
+      "fileId": "comment-file-1",
+      "userId": "commenter-1",
+      "username": "Commenter",
+      "color": "#1a73e8",
+      "content": "This is a live comment",
+      "position": {
+        "line": 10
+      },
+      "parentId": null,
+      "resolved": false,
+      "createdAt": "2025-12-03T10:21:03.922Z"
+    },
+    {
+      "id": "e3d42033-9480-486d-b8ac-6b2fdfd459b2",
+      "fileId": "comment-file-1",
+      "userId": "commenter-1",
+      "username": "Commenter",
+      "color": "#1a73e8",
+      "content": "This is a live comment",
+      "position": {
+        "line": 10
+      },
+      "parentId": null,
+      "resolved": false,
+      "createdAt": "2025-12-03T10:29:08.162Z"
+    },
+    {
+      "id": "284e5246-7304-44a3-a364-06ea1c47b04f",
+      "fileId": "comment-file-1",
+      "userId": "commenter-1",
+      "username": "Commenter",
+      "color": "#1a73e8",
+      "content": "This is a live comment",
+      "position": {
+        "line": 10
+      },
+      "parentId": null,
+      "resolved": false,
+      "createdAt": "2025-12-03T10:29:41.619Z"
+    },
+    {
+      "id": "3ce54130-57e9-46f0-b0bd-92248a0e697e",
+      "fileId": "comment-file-1",
+      "userId": "commenter-1",
+      "username": "Commenter",
+      "color": "#1a73e8",
+      "content": "This is a live comment",
+      "position": {
+        "line": 10
+      },
+      "parentId": null,
+      "resolved": false,
+      "createdAt": "2025-12-03T10:47:00.622Z"
+    },
+    {
+      "id": "7d53c8b3-fd9d-46d1-83f4-e42f79ba936e",
+      "fileId": "comment-file-1",
+      "userId": "commenter-1",
+      "username": "Commenter",
+      "color": "#1a73e8",
+      "content": "This is a live comment",
+      "position": {
+        "line": 10
+      },
+      "parentId": null,
+      "resolved": false,
+      "createdAt": "2025-12-03T11:59:46.942Z"
+    },
+    {
+      "id": "0f0579ea-f718-4909-81ff-3a47eab80af4",
+      "fileId": "comment-file-1",
+      "userId": "commenter-1",
+      "username": "Commenter",
+      "color": "#1a73e8",
+      "content": "This is a live comment",
+      "position": {
+        "line": 10
+      },
+      "parentId": null,
+      "resolved": false,
+      "createdAt": "2025-12-03T12:07:03.052Z"
+    },
+    {
+      "id": "1f5f2c8b-bc5c-461b-9f26-cdd1153be875",
+      "fileId": "comment-file-1",
+      "userId": "commenter-1",
+      "username": "Commenter",
+      "color": "#1a73e8",
+      "content": "This is a live comment",
+      "position": {
+        "line": 10
+      },
+      "parentId": null,
+      "resolved": false,
+      "createdAt": "2025-12-07T06:23:10.295Z"
+    }
+  ]
+}

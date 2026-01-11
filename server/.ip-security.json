@@ -1,0 +1,17 @@
+{
+  "whitelist": [],
+  "blacklist": [],
+  "failedAttempts": {},
+  "suspiciousIPs": {},
+  "geoBlocking": {
+    "enabled": false,
+    "mode": "blacklist",
+    "countries": []
+  },
+  "settings": {
+    "enableWhitelist": false,
+    "enableBlacklist": true,
+    "enableAutoBlock": true,
+    "enableGeoBlocking": false
+  }
+}
