@@ -595,7 +595,11 @@ app.get('/api/files', (req, res) => {
     // Convert 'null' string or undefined to actual null
     const normalizedFolderId = (!folderId || folderId === 'null' || folderId === 'undefined') ? null : folderId;
     
-    const userId = req.user?.userId;
+    // For admin/super_admin, show all files. For regular users, filter by user_id
+    const userId = (req.user?.role === 'admin' || req.user?.role === 'super_admin') 
+      ? null  // Show all files for admins
+      : req.user?.userId;
+    
     const foldersResult = db.getFolders(normalizedFolderId, { page: 1, limit: 1000, userId });
     const filesResult = db.getFiles(normalizedFolderId, { page, limit, sortBy, sortOrder, userId });
     
@@ -603,7 +607,9 @@ app.get('/api/files', (req, res) => {
       folderId: normalizedFolderId, 
       page, 
       filesCount: filesResult.files.length,
-      foldersCount: foldersResult.folders.length 
+      foldersCount: foldersResult.folders.length,
+      userId: req.user?.userId,
+      role: req.user?.role
     });
     
     res.json({
