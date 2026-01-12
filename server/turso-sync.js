@@ -42,6 +42,7 @@ async function createTursoTables() {
         type TEXT,
         size INTEGER DEFAULT 0,
         telegram_file_id TEXT,
+        telegram_message_id INTEGER,
         folder_id TEXT,
         user_id TEXT,
         starred INTEGER DEFAULT 0,
@@ -81,6 +82,13 @@ async function createTursoTables() {
       )
     `);
 
+    // Add telegram_message_id column if not exists
+    try {
+      await tursoClient.execute('ALTER TABLE files ADD COLUMN telegram_message_id INTEGER');
+    } catch (e) {
+      // Column already exists
+    }
+
     console.log('✅ Turso tables created');
   } catch (err) {
     console.error('❌ Error creating Turso tables:', err.message);
@@ -94,24 +102,26 @@ async function syncFile(file) {
   try {
     await tursoClient.execute({
       sql: `INSERT OR REPLACE INTO files 
-            (id, name, type, size, telegram_file_id, folder_id, user_id, starred, created_at, updated_at, deleted_at, tags, metadata)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+            (id, name, type, size, telegram_file_id, telegram_message_id, folder_id, user_id, starred, created_at, updated_at, deleted_at, tags, metadata)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       args: [
         file.id,
         file.name,
         file.type,
         file.size || 0,
         file.telegram_file_id,
+        file.telegram_message_id || null,
         file.folder_id,
         file.user_id,
         file.starred ? 1 : 0,
         file.created_at,
-        file.updated_at,
-        file.deleted_at,
+        file.updated_at || new Date().toISOString(),
+        file.deleted_at || null,
         JSON.stringify(file.tags || []),
         JSON.stringify(file.metadata || {})
       ]
     });
+    console.log(`☁️ Synced to Turso: ${file.name}`);
   } catch (err) {
     console.error('Turso sync file error:', err.message);
   }
@@ -204,40 +214,34 @@ async function restoreFromTurso(localDb) {
   try {
     let restored = { files: 0, folders: 0, users: 0 };
 
-    // Check if local DB is empty
-    const localFiles = localDb.prepare('SELECT COUNT(*) as count FROM files').get();
-    const localFolders = localDb.prepare('SELECT COUNT(*) as count FROM folders').get();
+    console.log('🔄 Syncing data from Turso cloud...');
 
-    // Only restore if local is empty
-    if (localFiles.count === 0 && localFolders.count === 0) {
-      console.log('🔄 Restoring data from Turso cloud...');
-
-      // Restore folders first
-      const folders = await tursoClient.execute('SELECT * FROM folders');
-      for (const folder of folders.rows) {
-        try {
-          localDb.prepare(`
-            INSERT OR REPLACE INTO folders (id, name, parent_id, user_id, created_at, updated_at, deleted_at, color)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-          `).run(folder.id, folder.name, folder.parent_id, folder.user_id, folder.created_at, folder.updated_at, folder.deleted_at, folder.color);
-          restored.folders++;
-        } catch (e) {}
-      }
-
-      // Restore files
-      const files = await tursoClient.execute('SELECT * FROM files');
-      for (const file of files.rows) {
-        try {
-          localDb.prepare(`
-            INSERT OR REPLACE INTO files (id, name, type, size, telegram_file_id, folder_id, user_id, starred, created_at, updated_at, deleted_at, tags, metadata)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-          `).run(file.id, file.name, file.type, file.size, file.telegram_file_id, file.folder_id, file.user_id, file.starred, file.created_at, file.updated_at, file.deleted_at, file.tags, file.metadata);
-          restored.files++;
-        } catch (e) {}
-      }
-
-      console.log(`✅ Restored from Turso: ${restored.files} files, ${restored.folders} folders`);
+    // Always sync from Turso to ensure data persistence
+    // Restore folders first (using INSERT OR IGNORE to avoid duplicates)
+    const folders = await tursoClient.execute('SELECT * FROM folders WHERE deleted_at IS NULL');
+    for (const folder of folders.rows) {
+      try {
+        localDb.prepare(`
+          INSERT OR REPLACE INTO folders (id, name, parent_id, user_id, created_at)
+          VALUES (?, ?, ?, ?, ?)
+        `).run(folder.id, folder.name, folder.parent_id, folder.user_id, folder.created_at);
+        restored.folders++;
+      } catch (e) {}
     }
+
+    // Restore files (using INSERT OR REPLACE to update existing)
+    const files = await tursoClient.execute('SELECT * FROM files WHERE deleted_at IS NULL');
+    for (const file of files.rows) {
+      try {
+        localDb.prepare(`
+          INSERT OR REPLACE INTO files (id, name, type, size, telegram_file_id, telegram_message_id, folder_id, user_id, starred, created_at)
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        `).run(file.id, file.name, file.type, file.size, file.telegram_file_id, file.telegram_message_id || null, file.folder_id, file.user_id, file.starred || 0, file.created_at);
+        restored.files++;
+      } catch (e) {}
+    }
+
+    console.log(`✅ Synced from Turso: ${restored.files} files, ${restored.folders} folders`);
 
     return restored;
   } catch (err) {
