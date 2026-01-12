@@ -610,7 +610,7 @@ function verifyAccessToken(token) {
     if (!user) {
       return null;
     }
-    
+
     // Check if user is active (default to active if status not set)
     const isActive = user.status === 'active' || user.isActive === true || !user.status;
     if (!isActive) {

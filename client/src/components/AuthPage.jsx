@@ -226,7 +226,7 @@ function AuthPage({ onLogin }) {
       <div className="auth-container">
         <div className="auth-header">
           <div className="auth-logo">
-            <FiHardDrive />
+            <img src="/icons/logo.svg" alt="Logo" style={{ width: '64px', height: '64px' }} />
           </div>
           <h1>التخزين السحابي</h1>
           <p>{mode === 'login' ? 'تسجيل الدخول' : 'إنشاء حساب جديد'}</p>

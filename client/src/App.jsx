@@ -957,7 +957,7 @@ function App() {
       <header className="header">
         <div className="header-right">
           <div className="logo">
-            <FiHardDrive size={28} />
+            <img src="/icons/logo.svg" alt="Logo" style={{ width: '32px', height: '32px' }} />
             <span>التخزين السحابي</span>
           </div>
         </div>
