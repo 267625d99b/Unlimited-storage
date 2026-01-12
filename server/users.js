@@ -18,14 +18,8 @@ const jwtValidation = security.validateJWTSecret(process.env.JWT_SECRET);
 if (!jwtValidation.valid) {
   console.error('❌ JWT_SECRET Security Issues:');
   jwtValidation.errors.forEach(err => console.error(`   - ${err}`));
-  if (IS_PRODUCTION) {
-    console.error('🛑 Cannot start in production with insecure JWT_SECRET!');
-    console.error(`💡 Generate a secure secret: ${security.generateSecureSecret()}`);
-    process.exit(1);
-  } else {
-    console.warn('⚠️  Using insecure JWT_SECRET in development mode');
-    console.warn(`💡 Recommended secret: ${security.generateSecureSecret()}`);
-  }
+  console.warn('⚠️  Using provided JWT_SECRET');
+  console.warn(`💡 Recommended secret: ${security.generateSecureSecret()}`);
 }
 
 const JWT_SECRET = process.env.JWT_SECRET || 'default_secret_change_in_production';
