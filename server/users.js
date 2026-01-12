@@ -166,6 +166,7 @@ async function initUsers() {
         passwordHash: hashedPassword,
         displayName: 'مدير النظام',
         role: ROLES.SUPER_ADMIN,
+        status: 'active',
         avatar: null,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
@@ -601,17 +602,24 @@ function getUserSessions(userId) {
 function verifyAccessToken(token) {
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
-    
+
     // JWT is valid - no need to check sessions (they may be lost on server restart)
     // Just verify the user still exists
     loadUsers();
     const user = usersData.users.find(u => u.id === decoded.userId);
-    if (!user || user.status !== 'active') {
+    if (!user) {
+      return null;
+    }
+    
+    // Check if user is active (default to active if status not set)
+    const isActive = user.status === 'active' || user.isActive === true || !user.status;
+    if (!isActive) {
       return null;
     }
 
     return decoded;
   } catch (e) {
+    console.error('Token verification error:', e.message);
     return null;
   }
 }
