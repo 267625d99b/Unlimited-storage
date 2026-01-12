@@ -775,6 +775,32 @@ async function resetPassword(userId, newPassword) {
   return true;
 }
 
+// Unlock user account
+function unlockAccount(userId) {
+  loadUsers();
+  const user = usersData.users.find(u => u.id === userId);
+  if (!user) {
+    throw new Error('المستخدم غير موجود');
+  }
+  user.lockedUntil = null;
+  user.loginAttempts = 0;
+  saveUsers();
+  return true;
+}
+
+// Unlock account by username
+function unlockAccountByUsername(username) {
+  loadUsers();
+  const user = usersData.users.find(u => u.username === username.toLowerCase());
+  if (!user) {
+    throw new Error('المستخدم غير موجود');
+  }
+  user.lockedUntil = null;
+  user.loginAttempts = 0;
+  saveUsers();
+  return true;
+}
+
 // ============ EXPORTS ============
 module.exports = {
   // Constants
@@ -815,5 +841,9 @@ module.exports = {
 
   // Password
   changePassword,
-  resetPassword
+  resetPassword,
+
+  // Account
+  unlockAccount,
+  unlockAccountByUsername
 };

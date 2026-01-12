@@ -72,6 +72,26 @@ router.post('/login', async (req, res) => {
   }
 });
 
+// POST /api/users/unlock-admin - Unlock admin account (emergency)
+router.post('/unlock-admin', (req, res) => {
+  try {
+    const { adminPassword } = req.body;
+    
+    // Verify admin password from environment
+    const correctPassword = process.env.ADMIN_PASSWORD;
+    if (!correctPassword || adminPassword !== correctPassword) {
+      return res.status(401).json({ error: 'كلمة مرور المدير غير صحيحة' });
+    }
+    
+    // Unlock admin account
+    users.unlockAccountByUsername('admin');
+    
+    res.json({ success: true, message: 'تم فك قفل حساب المدير' });
+  } catch (e) {
+    res.status(400).json({ error: e.message });
+  }
+});
+
 // POST /api/users/logout - Logout
 router.post('/logout', users.authMiddleware, (req, res) => {
   try {

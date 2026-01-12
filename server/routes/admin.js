@@ -288,4 +288,15 @@ router.post('/assign-orphan-files', users.requireRole(users.ROLES.SUPER_ADMIN), 
   }
 });
 
+// POST /api/admin/users/:id/unlock - Unlock user account
+router.post('/users/:id/unlock', users.requirePermission(users.PERMISSIONS.USER_EDIT), (req, res) => {
+  try {
+    users.unlockAccount(req.params.id);
+    db.logActivity(req.user.userId, 'admin_unlock_user', 'user', req.params.id, null, null, req.ip, req.headers['user-agent']);
+    res.json({ success: true, message: 'تم فك قفل الحساب' });
+  } catch (e) {
+    res.status(400).json({ error: e.message });
+  }
+});
+
 module.exports = router;
