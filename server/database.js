@@ -144,6 +144,23 @@ async function initDB() {
   // Run optimizations
   optimizeDB();
 
+  // Initialize Turso cloud sync
+  try {
+    const tursoSync = require('./turso-sync');
+    tursoSync.initTurso();
+    await tursoSync.createTursoTables();
+    
+    // Restore from Turso if local DB is empty
+    await tursoSync.restoreFromTurso(db);
+    
+    // Schedule periodic sync to Turso (every 5 minutes)
+    setInterval(() => {
+      tursoSync.fullSyncToTurso(db);
+    }, 5 * 60 * 1000);
+  } catch (err) {
+    console.log('ℹ️ Turso sync not available:', err.message);
+  }
+
   // Start backup scheduler
   startBackupScheduler();
 
@@ -890,13 +907,30 @@ function createFile(fileData) {
     ],
     ['files']
   );
-  if (result) invalidateFolderCache(fileData.folder_id);
+  if (result) {
+    invalidateFolderCache(fileData.folder_id);
+    // Sync to Turso cloud
+    try {
+      const tursoSync = require('./turso-sync');
+      tursoSync.syncFile(fileData);
+    } catch (e) {}
+  }
   return result;
 }
 
 function updateFileName(id, name) {
   const result = execute('UPDATE files SET name = ? WHERE id = ?', [name, id]);
-  if (result) invalidateFileCache(id);
+  if (result) {
+    invalidateFileCache(id);
+    // Sync to Turso
+    try {
+      const file = getFileById(id);
+      if (file) {
+        const tursoSync = require('./turso-sync');
+        tursoSync.syncFile(file);
+      }
+    } catch (e) {}
+  }
   return result;
 }
 
@@ -907,6 +941,14 @@ function updateFileFolder(id, folderId) {
     invalidateFileCache(id);
     invalidateFolderCache(file?.folder_id);
     invalidateFolderCache(folderId);
+    // Sync to Turso
+    try {
+      const updatedFile = getFileById(id);
+      if (updatedFile) {
+        const tursoSync = require('./turso-sync');
+        tursoSync.syncFile(updatedFile);
+      }
+    } catch (e) {}
   }
   return result;
 }
@@ -917,6 +959,11 @@ function deleteFile(id) {
   if (result) {
     invalidateFileCache(id);
     invalidateFolderCache(file?.folder_id);
+    // Delete from Turso
+    try {
+      const tursoSync = require('./turso-sync');
+      tursoSync.deleteFileFromTurso(id);
+    } catch (e) {}
   }
   return result;
 }
