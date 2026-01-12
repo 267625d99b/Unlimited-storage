@@ -42,6 +42,12 @@ const FilePreview = lazy(() => import('./components/FilePreview'));
 
 const API = '/api';
 
+// Set token from localStorage on app start
+const savedToken = localStorage.getItem('access_token');
+if (savedToken) {
+  axios.defaults.headers.common['Authorization'] = `Bearer ${savedToken}`;
+}
+
 // Setup axios interceptor for token refresh
 axios.interceptors.response.use(
   response => response,

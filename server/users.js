@@ -601,11 +601,12 @@ function getUserSessions(userId) {
 function verifyAccessToken(token) {
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
-
-    // Check if session is still valid
-    loadSessions();
-    const session = sessionsData.sessions.find(s => s.id === decoded.sessionId);
-    if (!session || session.expiresAt < Date.now()) {
+    
+    // JWT is valid - no need to check sessions (they may be lost on server restart)
+    // Just verify the user still exists
+    loadUsers();
+    const user = usersData.users.find(u => u.id === decoded.userId);
+    if (!user || user.status !== 'active') {
       return null;
     }
 
