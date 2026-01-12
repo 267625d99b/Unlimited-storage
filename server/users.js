@@ -44,22 +44,22 @@ const PERMISSIONS = {
   FILE_DELETE: 'file:delete',
   FILE_SHARE: 'file:share',
   FILE_DOWNLOAD: 'file:download',
-  
+
   // Folder operations
   FOLDER_CREATE: 'folder:create',
   FOLDER_DELETE: 'folder:delete',
-  
+
   // User management
   USER_VIEW: 'user:view',
   USER_CREATE: 'user:create',
   USER_EDIT: 'user:edit',
   USER_DELETE: 'user:delete',
-  
+
   // Admin operations
   ADMIN_PANEL: 'admin:panel',
   ADMIN_SETTINGS: 'admin:settings',
   ADMIN_LOGS: 'admin:logs',
-  
+
   // Storage
   STORAGE_UNLIMITED: 'storage:unlimited',
   STORAGE_VIEW: 'storage:view'
@@ -142,7 +142,7 @@ function saveSessions() {
 async function initUsers() {
   loadUsers();
   loadSessions();
-  
+
   // Create super admin if no users exist
   if (usersData.users.length === 0) {
     const adminPassword = process.env.ADMIN_PASSWORD || 'admin123';
@@ -163,7 +163,7 @@ async function initUsers() {
         id: crypto.randomUUID(),
         username: 'admin',
         email: 'admin@localhost',
-        password: hashedPassword,
+        passwordHash: hashedPassword,
         displayName: 'مدير النظام',
         role: ROLES.SUPER_ADMIN,
         avatar: null,
@@ -181,13 +181,13 @@ async function initUsers() {
       console.log('✅ Super Admin created (username: admin)');
     }
   }
-  
+
   // Clean expired sessions
   cleanExpiredSessions();
-  
+
   // Schedule session cleanup every hour
   setInterval(cleanExpiredSessions, 60 * 60 * 1000);
-  
+
   console.log(`✅ User system initialized (${usersData.users.length} users)`);
 }
 
@@ -201,40 +201,40 @@ function cleanExpiredSessions() {
 // ============ USER CRUD ============
 async function createUser({ username, email, password, displayName, role = ROLES.USER, avatar = null }) {
   loadUsers();
-  
+
   // Validate username with security module
   const usernameValidation = security.validateUsername(username);
   if (!usernameValidation.valid) {
     throw new Error(usernameValidation.error);
   }
-  
+
   // Validate email with security module
   const emailValidation = security.validateEmail(email);
   if (!emailValidation.valid) {
     throw new Error(emailValidation.error);
   }
-  
+
   // Validate password with security module (strong password policy)
-  const passwordValidation = security.validatePassword(password, { 
-    username: usernameValidation.sanitized, 
-    email: emailValidation.sanitized 
+  const passwordValidation = security.validatePassword(password, {
+    username: usernameValidation.sanitized,
+    email: emailValidation.sanitized
   });
   if (!passwordValidation.valid) {
     throw new Error(passwordValidation.errors.join('\n'));
   }
-  
+
   // Check duplicates
-  const existingUser = usersData.users.find(u => 
-    u.username.toLowerCase() === usernameValidation.sanitized || 
+  const existingUser = usersData.users.find(u =>
+    u.username.toLowerCase() === usernameValidation.sanitized ||
     u.email.toLowerCase() === emailValidation.sanitized
   );
   if (existingUser) {
     throw new Error('اسم المستخدم أو البريد الإلكتروني مستخدم بالفعل');
   }
-  
+
   // Sanitize display name
   const sanitizedDisplayName = security.sanitizeString(displayName || username);
-  
+
   // Create user
   const user = {
     id: crypto.randomUUID(),
@@ -263,10 +263,10 @@ async function createUser({ username, email, password, displayName, role = ROLES
     twoFactorBackupCodes: [],
     emailVerified: false
   };
-  
+
   usersData.users.push(user);
   saveUsers();
-  
+
   return sanitizeUser(user);
 }
 
@@ -289,27 +289,27 @@ function getUserByEmail(email) {
 function getAllUsers(options = {}) {
   loadUsers();
   let users = [...usersData.users];
-  
+
   // Filter by role
   if (options.role) {
     users = users.filter(u => u.role === options.role);
   }
-  
+
   // Filter by status
   if (options.status) {
     users = users.filter(u => u.status === options.status);
   }
-  
+
   // Search
   if (options.search) {
     const search = options.search.toLowerCase();
-    users = users.filter(u => 
-      u.username.includes(search) || 
-      u.email.includes(search) || 
+    users = users.filter(u =>
+      u.username.includes(search) ||
+      u.email.includes(search) ||
       u.displayName.toLowerCase().includes(search)
     );
   }
-  
+
   // Sort
   const sortBy = options.sortBy || 'createdAt';
   const sortOrder = options.sortOrder === 'asc' ? 1 : -1;
@@ -318,14 +318,14 @@ function getAllUsers(options = {}) {
     if (a[sortBy] > b[sortBy]) return 1 * sortOrder;
     return 0;
   });
-  
+
   // Pagination
   const page = options.page || 1;
   const limit = options.limit || 50;
   const total = users.length;
   const start = (page - 1) * limit;
   users = users.slice(start, start + limit);
-  
+
   return {
     users: users.map(sanitizeUser),
     pagination: {
@@ -343,9 +343,9 @@ async function updateUser(userId, updates) {
   if (index === -1) {
     throw new Error('المستخدم غير موجود');
   }
-  
+
   const user = usersData.users[index];
-  
+
   // Update allowed fields
   const allowedFields = ['displayName', 'avatar', 'settings', 'status', 'emailVerified', 'twoFactorEnabled', 'twoFactorSecret', 'twoFactorBackupCodes'];
   for (const field of allowedFields) {
@@ -353,23 +353,23 @@ async function updateUser(userId, updates) {
       user[field] = updates[field];
     }
   }
-  
+
   // Update role (admin only)
   if (updates.role && Object.values(ROLES).includes(updates.role)) {
     user.role = updates.role;
     user.permissions = ROLE_PERMISSIONS[updates.role];
     user.storageLimit = STORAGE_LIMITS[updates.role];
   }
-  
+
   // Update password
   if (updates.password) {
     user.passwordHash = await bcrypt.hash(updates.password, 12);
   }
-  
+
   user.updatedAt = new Date().toISOString();
   usersData.users[index] = user;
   saveUsers();
-  
+
   return sanitizeUser(user);
 }
 
@@ -379,7 +379,7 @@ function deleteUser(userId) {
   if (index === -1) {
     throw new Error('المستخدم غير موجود');
   }
-  
+
   // Don't delete super admin
   if (usersData.users[index].role === ROLES.SUPER_ADMIN) {
     const superAdmins = usersData.users.filter(u => u.role === ROLES.SUPER_ADMIN);
@@ -387,13 +387,13 @@ function deleteUser(userId) {
       throw new Error('لا يمكن حذف المدير الأعلى الوحيد');
     }
   }
-  
+
   usersData.users.splice(index, 1);
   saveUsers();
-  
+
   // Revoke all sessions
   revokeAllUserSessions(userId);
-  
+
   return true;
 }
 
@@ -406,35 +406,35 @@ function sanitizeUser(user) {
 // ============ AUTHENTICATION ============
 async function login(usernameOrEmail, password, deviceInfo = {}) {
   loadUsers();
-  
+
   // Find user
-  const user = usersData.users.find(u => 
-    u.username === usernameOrEmail.toLowerCase() || 
+  const user = usersData.users.find(u =>
+    u.username === usernameOrEmail.toLowerCase() ||
     u.email === usernameOrEmail.toLowerCase()
   );
-  
+
   if (!user) {
     throw new Error('اسم المستخدم أو كلمة المرور غير صحيحة');
   }
-  
+
   // Check if account is locked
   if (user.lockedUntil && new Date(user.lockedUntil) > new Date()) {
     const remainingMinutes = Math.ceil((new Date(user.lockedUntil) - new Date()) / 60000);
     throw new Error(`الحساب مقفل. حاول بعد ${remainingMinutes} دقيقة`);
   }
-  
+
   // Check if account is suspended
   if (user.status === 'suspended') {
     throw new Error('هذا الحساب موقوف. تواصل مع المدير');
   }
-  
+
   // Verify password
   const isValid = await bcrypt.compare(password, user.passwordHash);
-  
+
   if (!isValid) {
     // Increment failed attempts
     user.loginAttempts = (user.loginAttempts || 0) + 1;
-    
+
     // Lock after 5 failed attempts
     if (user.loginAttempts >= 5) {
       user.lockedUntil = new Date(Date.now() + 30 * 60 * 1000).toISOString(); // 30 minutes
@@ -442,20 +442,20 @@ async function login(usernameOrEmail, password, deviceInfo = {}) {
       saveUsers();
       throw new Error('تم قفل الحساب لمدة 30 دقيقة بسبب محاولات فاشلة متعددة');
     }
-    
+
     saveUsers();
     throw new Error('اسم المستخدم أو كلمة المرور غير صحيحة');
   }
-  
+
   // Reset failed attempts
   user.loginAttempts = 0;
   user.lockedUntil = null;
   user.lastLoginAt = new Date().toISOString();
   saveUsers();
-  
+
   // Generate tokens
   const tokens = generateTokens(user, deviceInfo);
-  
+
   return {
     user: sanitizeUser(user),
     ...tokens
@@ -464,10 +464,10 @@ async function login(usernameOrEmail, password, deviceInfo = {}) {
 
 function generateTokens(user, deviceInfo = {}) {
   loadSessions();
-  
+
   const sessionId = crypto.randomUUID();
   const now = Date.now();
-  
+
   // Access token (short-lived)
   const accessToken = jwt.sign(
     {
@@ -480,7 +480,7 @@ function generateTokens(user, deviceInfo = {}) {
     JWT_SECRET,
     { expiresIn: ACCESS_TOKEN_EXPIRY }
   );
-  
+
   // Refresh token (long-lived)
   const refreshToken = jwt.sign(
     {
@@ -491,7 +491,7 @@ function generateTokens(user, deviceInfo = {}) {
     JWT_REFRESH_SECRET,
     { expiresIn: REFRESH_TOKEN_EXPIRY }
   );
-  
+
   // Store session
   const session = {
     id: sessionId,
@@ -505,7 +505,7 @@ function generateTokens(user, deviceInfo = {}) {
     expiresAt: now + 7 * 24 * 60 * 60 * 1000, // 7 days
     lastActivityAt: now
   };
-  
+
   sessionsData.sessions.push(session);
   sessionsData.refreshTokens.push({
     token: refreshToken,
@@ -513,9 +513,9 @@ function generateTokens(user, deviceInfo = {}) {
     userId: user.id,
     expiresAt: now + 7 * 24 * 60 * 60 * 1000
   });
-  
+
   saveSessions();
-  
+
   return {
     accessToken,
     refreshToken,
@@ -526,25 +526,25 @@ function generateTokens(user, deviceInfo = {}) {
 
 function refreshAccessToken(refreshToken) {
   loadSessions();
-  
+
   try {
     const decoded = jwt.verify(refreshToken, JWT_REFRESH_SECRET);
-    
+
     // Check if refresh token is valid
-    const storedToken = sessionsData.refreshTokens.find(t => 
+    const storedToken = sessionsData.refreshTokens.find(t =>
       t.token === refreshToken && t.userId === decoded.userId
     );
-    
+
     if (!storedToken || storedToken.expiresAt < Date.now()) {
       throw new Error('Refresh token expired');
     }
-    
+
     // Get user
     const user = usersData.users.find(u => u.id === decoded.userId);
     if (!user || user.status !== 'active') {
       throw new Error('User not found or inactive');
     }
-    
+
     // Generate new access token
     const accessToken = jwt.sign(
       {
@@ -557,14 +557,14 @@ function refreshAccessToken(refreshToken) {
       JWT_SECRET,
       { expiresIn: ACCESS_TOKEN_EXPIRY }
     );
-    
+
     // Update session activity
     const session = sessionsData.sessions.find(s => s.id === decoded.sessionId);
     if (session) {
       session.lastActivityAt = Date.now();
       saveSessions();
     }
-    
+
     return {
       accessToken,
       expiresIn: 15 * 60
@@ -601,14 +601,14 @@ function getUserSessions(userId) {
 function verifyAccessToken(token) {
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
-    
+
     // Check if session is still valid
     loadSessions();
     const session = sessionsData.sessions.find(s => s.id === decoded.sessionId);
     if (!session || session.expiresAt < Date.now()) {
       return null;
     }
-    
+
     return decoded;
   } catch (e) {
     return null;
@@ -619,29 +619,29 @@ function verifyAccessToken(token) {
 function authMiddleware(req, res, next) {
   const authHeader = req.headers.authorization;
   const token = authHeader && authHeader.startsWith('Bearer ') ? authHeader.slice(7) : null;
-  
+
   if (!token) {
     return res.status(401).json({ error: 'يرجى تسجيل الدخول', code: 'NO_TOKEN' });
   }
-  
+
   const decoded = verifyAccessToken(token);
   if (!decoded) {
     return res.status(401).json({ error: 'جلسة منتهية', code: 'INVALID_TOKEN' });
   }
-  
+
   // Get full user data
   const user = usersData.users.find(u => u.id === decoded.userId);
   if (!user || user.status !== 'active') {
     return res.status(401).json({ error: 'الحساب غير نشط', code: 'INACTIVE_USER' });
   }
-  
+
   req.user = {
     ...decoded,
     storageLimit: user.storageLimit,
     storageUsed: user.storageUsed
   };
   req.sessionId = decoded.sessionId;
-  
+
   next();
 }
 
@@ -650,12 +650,12 @@ function requirePermission(...permissions) {
     if (!req.user) {
       return res.status(401).json({ error: 'يرجى تسجيل الدخول' });
     }
-    
+
     const hasPermission = permissions.every(p => req.user.permissions.includes(p));
     if (!hasPermission) {
       return res.status(403).json({ error: 'ليس لديك صلاحية لهذا الإجراء' });
     }
-    
+
     next();
   };
 }
@@ -665,11 +665,11 @@ function requireRole(...roles) {
     if (!req.user) {
       return res.status(401).json({ error: 'يرجى تسجيل الدخول' });
     }
-    
+
     if (!roles.includes(req.user.role)) {
       return res.status(403).json({ error: 'ليس لديك صلاحية لهذا الإجراء' });
     }
-    
+
     next();
   };
 }
@@ -688,10 +688,10 @@ function checkStorageLimit(userId, fileSize) {
   loadUsers();
   const user = usersData.users.find(u => u.id === userId);
   if (!user) return false;
-  
+
   // Unlimited storage
   if (user.storageLimit === -1) return true;
-  
+
   return (user.storageUsed + fileSize) <= user.storageLimit;
 }
 
@@ -699,7 +699,7 @@ function getUserStorageInfo(userId) {
   loadUsers();
   const user = usersData.users.find(u => u.id === userId);
   if (!user) return null;
-  
+
   return {
     used: user.storageUsed || 0,
     limit: user.storageLimit,
@@ -715,12 +715,12 @@ async function changePassword(userId, currentPassword, newPassword) {
   if (!user) {
     throw new Error('المستخدم غير موجود');
   }
-  
+
   const isValid = await bcrypt.compare(currentPassword, user.passwordHash);
   if (!isValid) {
     throw new Error('كلمة المرور الحالية غير صحيحة');
   }
-  
+
   // Validate new password with strong policy
   const passwordValidation = security.validatePassword(newPassword, {
     username: user.username,
@@ -729,14 +729,14 @@ async function changePassword(userId, currentPassword, newPassword) {
   if (!passwordValidation.valid) {
     throw new Error(passwordValidation.errors.join('\n'));
   }
-  
+
   user.passwordHash = await bcrypt.hash(newPassword, 12);
   user.updatedAt = new Date().toISOString();
   saveUsers();
-  
+
   // Optionally revoke all sessions except current
   // revokeAllUserSessions(userId);
-  
+
   return true;
 }
 
@@ -746,7 +746,7 @@ async function resetPassword(userId, newPassword) {
   if (!user) {
     throw new Error('المستخدم غير موجود');
   }
-  
+
   // Validate new password with strong policy
   const passwordValidation = security.validatePassword(newPassword, {
     username: user.username,
@@ -755,14 +755,14 @@ async function resetPassword(userId, newPassword) {
   if (!passwordValidation.valid) {
     throw new Error(passwordValidation.errors.join('\n'));
   }
-  
+
   user.passwordHash = await bcrypt.hash(newPassword, 12);
   user.updatedAt = new Date().toISOString();
   saveUsers();
-  
+
   // Revoke all sessions
   revokeAllUserSessions(userId);
-  
+
   return true;
 }
 
@@ -773,10 +773,10 @@ module.exports = {
   PERMISSIONS,
   ROLE_PERMISSIONS,
   STORAGE_LIMITS,
-  
+
   // Initialization
   initUsers,
-  
+
   // User CRUD
   createUser,
   getUser,
@@ -785,7 +785,7 @@ module.exports = {
   getAllUsers,
   updateUser,
   deleteUser,
-  
+
   // Authentication
   login,
   logout,
@@ -793,17 +793,17 @@ module.exports = {
   refreshAccessToken,
   verifyAccessToken,
   getUserSessions,
-  
+
   // Middleware
   authMiddleware,
   requirePermission,
   requireRole,
-  
+
   // Storage
   updateUserStorage,
   checkStorageLimit,
   getUserStorageInfo,
-  
+
   // Password
   changePassword,
   resetPassword
