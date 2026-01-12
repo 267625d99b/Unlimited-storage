@@ -12,7 +12,6 @@
     "client": "cd client && npm run dev",
     "start": "node server/index.js",
     "build": "cd client && npm install && npm run build",
-    "postinstall": "npm run build",
     "install-all": "npm install && cd client && npm install",
     "test": "jest --config jest.config.js",
     "test:watch": "jest --watch",
