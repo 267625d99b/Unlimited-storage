@@ -316,6 +316,13 @@ app.use('/api/download-file', downloadLimiter);
 app.use(express.json({ limit: '2gb' }));
 app.use(express.urlencoded({ extended: true, limit: '2gb' }));
 
+// ============ SERVE STATIC FILES (Production) - EARLY ============
+const clientBuildPath = path.join(__dirname, '../client/dist');
+if (IS_PRODUCTION && fs.existsSync(clientBuildPath)) {
+  app.use(express.static(clientBuildPath));
+  console.log('📦 Serving static files from:', clientBuildPath);
+}
+
 // زيادة timeout للملفات الكبيرة (30 دقيقة)
 app.use((req, res, next) => {
   req.setTimeout(30 * 60 * 1000); // 30 minutes
@@ -2079,23 +2086,18 @@ app.post('/api/cache/clear', users.authMiddleware, (req, res) => {
   res.json({ success: true, message: 'تم مسح الذاكرة المؤقتة' });
 });
 
-// ============ SERVE STATIC FILES (Production) ============
+// ============ CATCH-ALL FOR REACT ROUTING (Production) ============
 if (IS_PRODUCTION) {
-  const clientBuildPath = path.join(__dirname, '../client/dist');
-  
-  // Serve static files from React build
-  app.use(express.static(clientBuildPath));
+  const clientPath = path.join(__dirname, '../client/dist');
   
   // Handle React routing - serve index.html for all non-API routes
   app.get('*', (req, res, next) => {
     // Skip API routes
-    if (req.path.startsWith('/api') || req.path.startsWith('/ws') || req.path.startsWith('/health') || req.path.startsWith('/metrics')) {
+    if (req.path.startsWith('/api') || req.path.startsWith('/ws') || req.path.startsWith('/health') || req.path.startsWith('/metrics') || req.path.startsWith('/api-docs')) {
       return next();
     }
-    res.sendFile(path.join(clientBuildPath, 'index.html'));
+    res.sendFile(path.join(clientPath, 'index.html'));
   });
-  
-  console.log('📦 Serving static files from:', clientBuildPath);
 }
 
 // ============ START SERVER ============
