@@ -913,7 +913,9 @@ function createFile(fileData) {
     try {
       const tursoSync = require('./turso-sync');
       tursoSync.syncFile(fileData);
-    } catch (e) {}
+    } catch (e) {
+      console.error('Failed to sync file to Turso:', e.message);
+    }
   }
   return result;
 }

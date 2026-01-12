@@ -97,9 +97,14 @@ async function createTursoTables() {
 
 // Sync file to Turso
 async function syncFile(file) {
-  if (!tursoClient) return;
+  if (!tursoClient) {
+    console.log('⚠️ Turso client not initialized, cannot sync file');
+    return;
+  }
 
   try {
+    console.log(`☁️ Syncing file to Turso: ${file.name} (ID: ${file.id})`);
+    
     await tursoClient.execute({
       sql: `INSERT OR REPLACE INTO files 
             (id, name, type, size, telegram_file_id, telegram_message_id, folder_id, user_id, starred, created_at, updated_at, deleted_at, tags, metadata)
@@ -111,8 +116,8 @@ async function syncFile(file) {
         file.size || 0,
         file.telegram_file_id,
         file.telegram_message_id || null,
-        file.folder_id,
-        file.user_id,
+        file.folder_id || null,
+        file.user_id || null,
         file.starred ? 1 : 0,
         file.created_at,
         file.updated_at || new Date().toISOString(),
@@ -121,9 +126,10 @@ async function syncFile(file) {
         JSON.stringify(file.metadata || {})
       ]
     });
-    console.log(`☁️ Synced to Turso: ${file.name}`);
+    console.log(`✅ Synced to Turso: ${file.name}`);
   } catch (err) {
-    console.error('Turso sync file error:', err.message);
+    console.error(`❌ Turso sync file error for ${file.name}:`, err.message);
+    console.error('Full error:', err);
   }
 }
 
@@ -209,16 +215,26 @@ async function deleteFolderFromTurso(folderId) {
 
 // Restore data from Turso (on server start)
 async function restoreFromTurso(localDb) {
-  if (!tursoClient) return { files: 0, folders: 0, users: 0 };
+  if (!tursoClient) {
+    console.log('⚠️ Turso client not initialized, skipping restore');
+    return { files: 0, folders: 0, users: 0 };
+  }
 
   try {
     let restored = { files: 0, folders: 0, users: 0 };
 
-    console.log('🔄 Syncing data from Turso cloud...');
+    console.log('🔄 Restoring data from Turso cloud...');
 
-    // Always sync from Turso to ensure data persistence
-    // Restore folders first (using INSERT OR IGNORE to avoid duplicates)
+    // Get counts from Turso
+    const tursoFilesCount = await tursoClient.execute('SELECT COUNT(*) as count FROM files WHERE deleted_at IS NULL');
+    const tursoFoldersCount = await tursoClient.execute('SELECT COUNT(*) as count FROM folders WHERE deleted_at IS NULL');
+    
+    console.log(`📊 Turso has: ${tursoFilesCount.rows[0]?.count || 0} files, ${tursoFoldersCount.rows[0]?.count || 0} folders`);
+
+    // Restore folders first
     const folders = await tursoClient.execute('SELECT * FROM folders WHERE deleted_at IS NULL');
+    console.log(`📁 Restoring ${folders.rows.length} folders...`);
+    
     for (const folder of folders.rows) {
       try {
         localDb.prepare(`
@@ -226,26 +242,44 @@ async function restoreFromTurso(localDb) {
           VALUES (?, ?, ?, ?, ?)
         `).run(folder.id, folder.name, folder.parent_id, folder.user_id, folder.created_at);
         restored.folders++;
-      } catch (e) {}
+      } catch (e) {
+        console.error(`❌ Failed to restore folder ${folder.name}:`, e.message);
+      }
     }
 
-    // Restore files (using INSERT OR REPLACE to update existing)
+    // Restore files
     const files = await tursoClient.execute('SELECT * FROM files WHERE deleted_at IS NULL');
+    console.log(`📄 Restoring ${files.rows.length} files...`);
+    
     for (const file of files.rows) {
       try {
         localDb.prepare(`
           INSERT OR REPLACE INTO files (id, name, type, size, telegram_file_id, telegram_message_id, folder_id, user_id, starred, created_at)
           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        `).run(file.id, file.name, file.type, file.size, file.telegram_file_id, file.telegram_message_id || null, file.folder_id, file.user_id, file.starred || 0, file.created_at);
+        `).run(
+          file.id, 
+          file.name, 
+          file.type, 
+          file.size, 
+          file.telegram_file_id, 
+          file.telegram_message_id || null, 
+          file.folder_id, 
+          file.user_id, 
+          file.starred || 0, 
+          file.created_at
+        );
         restored.files++;
-      } catch (e) {}
+      } catch (e) {
+        console.error(`❌ Failed to restore file ${file.name}:`, e.message);
+      }
     }
 
-    console.log(`✅ Synced from Turso: ${restored.files} files, ${restored.folders} folders`);
+    console.log(`✅ Restored from Turso: ${restored.files} files, ${restored.folders} folders`);
 
     return restored;
   } catch (err) {
     console.error('❌ Turso restore error:', err.message);
+    console.error('Full error:', err);
     return { files: 0, folders: 0, users: 0 };
   }
 }
