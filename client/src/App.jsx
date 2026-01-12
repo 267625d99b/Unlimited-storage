@@ -5,7 +5,7 @@ import {
   FiFolder, FiUpload, FiSearch, FiGrid, FiList, FiX, FiChevronLeft,
   FiHardDrive, FiStar, FiClock, FiTrash2, FiRefreshCw, FiCopy, FiTag,
   FiPackage, FiArrowUp, FiArrowDown, FiFile, FiUser, FiKey, FiLogOut, FiSettings,
-  FiCpu
+  FiCpu, FiShield
 } from 'react-icons/fi';
 import './App.css';
 
@@ -29,6 +29,7 @@ const CommentsPanel = lazy(() => import('./components/CommentsPanel'));
 const CollectionsManager = lazy(() => import('./components/CollectionsManager'));
 const AIPanel = lazy(() => import('./components/AIPanel'));
 const SmartAssistant = lazy(() => import('./components/SmartAssistant'));
+const AdminPanel = lazy(() => import('./components/AdminPanel'));
 
 // Hooks
 import { useThumbnailQueue } from './hooks/useThumbnailQueue';
@@ -114,6 +115,7 @@ function App() {
   const [showAIPanel, setShowAIPanel] = useState(false);
   const [aiSelectedFile, setAiSelectedFile] = useState(null);
   const [showSmartAssistant, setShowSmartAssistant] = useState(false);
+  const [showAdminPanel, setShowAdminPanel] = useState(false);
 
   // State
   const [files, setFiles] = useState([]);
@@ -1012,8 +1014,8 @@ function App() {
                   <FiSettings /> الإعدادات
                 </button>
                 {(currentUser?.role === 'super_admin' || currentUser?.role === 'admin') && (
-                  <button onClick={() => window.open('/admin', '_blank')}>
-                    <FiSettings /> لوحة التحكم
+                  <button onClick={() => { setShowAdminPanel(true); setShowUserMenu(false); }}>
+                    <FiShield /> لوحة التحكم
                   </button>
                 )}
                 <button className="logout" onClick={handleLogout}>
@@ -1435,6 +1437,18 @@ function App() {
         <FiCpu />
         <span className="badge">AI</span>
       </button>
+
+      {/* Admin Panel */}
+      <Suspense fallback={<div className="loading-state"><div className="spinner"></div></div>}>
+        {showAdminPanel && (
+          <AdminPanel
+            isOpen={showAdminPanel}
+            onClose={() => setShowAdminPanel(false)}
+            currentUser={currentUser}
+            showToast={showToast}
+          />
+        )}
+      </Suspense>
     </div>
   );
 }
